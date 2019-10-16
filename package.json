@@ -1,0 +1,14 @@
+{
+  "name": "agentstats-website",
+  "version": "1.0.0",
+  "description": "Testing out how to set up agent stats website.",
+  "main": "index.js",
+  "scripts": {
+    "test": "runstats"
+  },
+  "author": "Conner C",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
