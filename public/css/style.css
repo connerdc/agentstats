@@ -1,4 +1,9 @@
+#agentForm {
+    text-align: right;
+}
+
 #agentForm > * {
     margin: 10px 20px;
     padding: 5px 5px; 
 }
+

@@ -15,14 +15,23 @@ const pool = new mssql.ConnectionPool({
 })
 
 app.get('/', function (req, res) {
+  if(pool) {
+    pool.close();
+  }
+  pool.connect(err => {
+    console.log(err);
+  })
   res.render('index');
 })
 
 app.post('/', function (req, res) {
   console.log(req.body.agent);
-  pool.connect(err => {
-    console.log(err);
-  })
+  //pool.query('select usr_key, usr_first_name from users where usr_first_name = "Brandon"');
+  var request = new mssql.Request(pool);
+  request.query("select top 1 usr_email, usr_key from users where usr_first_name like '%Conner%'", function(err, recordset) {
+    // ... error checks
+    console.dir(recordset);
+  }); 
   res.render('index');  
 })
 
