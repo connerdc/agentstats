@@ -8,14 +8,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs')
 
 const pool = new mssql.ConnectionPool({
-  user: 'SQSENIOR\\con900048',
-  password: 'Rennoc1995',
+  user: 'it_qualityassurance',
+  password: 'f3FszTRYRjiJ',
   server: 'sq14db-prpt02.sqis-corp.com',
-  database: 'SQS-Senior',
-
-  options: {
-    trustedConnection: true
-  }
+  database: 'SelectCARE-SQS',
 })
 
 app.get('/', function (req, res) {
