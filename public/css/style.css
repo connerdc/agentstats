@@ -1,9 +1,23 @@
+#agentformcontainer {
+    width: 100%;
+    height: auto;
+    padding: 25px 50px;
+    border: 2px solid grey;
+}
+
 #agentForm {
-    text-align: right;
+    text-align: left;
 }
 
 #agentForm > * {
     margin: 10px 20px;
     padding: 5px 5px; 
+}
+
+#acdwebview {
+    width: 100%;
+    height: auto;
+    padding: 50px 100px;
+    border: 2px solid grey;
 }
 

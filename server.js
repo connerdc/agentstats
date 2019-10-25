@@ -43,18 +43,19 @@ app.post('/', function (req, res) {
   var request = new mssql.Request(pool);
 
   //sql queries to run
-  var sql = "select usr_key, usr_email, usr_first_name, usr_last_name from users where usr_active_flag = 1 and usr_delete_flag = 0 and usr_email like '%" + req.body.agent + "%' order by usr_first_name asc";
+  var usersql = "select usr_key, usr_email, usr_first_name, usr_last_name from users where usr_active_flag = 1 and usr_delete_flag = 0 and usr_email like '%" + req.body.agent + "%' order by usr_first_name asc";
+  var galandacdsql = "select agent_group_name, agent_group_acd_flag, usr_email, usr_key from gal_agentgroups AS ag join gal_agent2agentgroups AS a2g on a2g.agent_group_id = ag.agent_group_id join users on usr_key = a2g.agent_id where  agent_group_inactive = 0 and agent_group_delete_flag = 0 and usr_email like '%" + req.body.agent + "%' order by agent_group_name asc";
   //var simplesql = "select top 1 * from users";
-  console.log(sql);
+  console.log(galandacdsql);
   
   //request for sql queries, populated from database based on above queries
-  request.query(sql, function(err, recordset) {
+  request.query(galandacdsql, function(err, recordset) {
       userResponse = recordset;
       console.log("\nResponse Body:");
       console.log(userResponse);
       console.log("\nParsed Response:")
       //below populates based off of index of record set returned from query. Most queries only return one row, so the index of this row is 0.  
-      console.log("User Key: " + userResponse.recordset[0]["usr_key"] + " User Email: " + userResponse.recordset[0]["usr_email"]);
+      console.log("User Email: " + userResponse.recordset[0]["usr_email"] + "\nAgent Group Name: " + userResponse.recordset[0]["agent_group_name"] + "\nIs ACD Group: " + userResponse.recordset[0]["agent_group_acd_flag"]);
   }); 
 
 /*   if(pool) {
