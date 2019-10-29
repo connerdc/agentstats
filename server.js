@@ -28,8 +28,9 @@ app.get('/', function (req, res) {
   })
 
   //render index page
-  res.render('index', {State: "", 'Gal/Enroll': "", "User Email": "", "User Key": "" });
+  res.render('index', {recordset: "" });
 })
+//State: "", 'Gal/Enroll': "", "User Email": "", "User Key": "", for above to change back to variable passing
 
 function initializeConn(req, res, next) {
   console.log("Callback 1");
@@ -59,8 +60,7 @@ function renderStatistics(req, res, next) {
   console.log("Render response object:\n" + userResponse.recordset[1] + "\n");
   //app.set('json spaces', 2);
   //res.send(userResponse.recordset);
-  res.render("index", userResponse.recordset[1]);
-  //, {userResponse: "recordset"}
+  res.render("index", userResponse);
 }
 
 app.post('/', initializeConn, galAndACDStates, renderStatistics);
