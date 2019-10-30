@@ -1,12 +1,13 @@
 #agentformcontainer {
     width: 100%;
     height: auto;
-    padding: 25px 50px;
     border: 2px solid grey;
+    text-align: center;
 }
 
 #agentForm {
     text-align: left;
+    margin-left: 250px;
 }
 
 #agentForm > * {

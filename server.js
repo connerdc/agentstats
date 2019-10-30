@@ -53,23 +53,28 @@ function galAndACDStates(req, res, next) {
   var usersql = "select usr_key, usr_email, usr_first_name, usr_last_name from users where usr_active_flag = 1 and usr_delete_flag = 0 and usr_key ='" + req.body.agent + "' order by usr_first_name asc";
   var pastduecalendarsql = "select eventcalendar.act_account_id as AccountID, eventcalendar.evc_title as EventTitle,eventcalendar.evc_specific_date_time_from_now as TimeOfEvent, eventcalendar.evc_dismissed as IsDismissed,eventcalendar.evc_google_api_log as GoogleAPILog, users.usr_email as UserEmail from eventcalendar join users on eventcalendar.usr_user_id = users.usr_key where usr_user_id in (select usr_key from users where usr_key ='" + req.body.agent + "' and evc_specific_date_time_from_now < getdate() and usr_active_flag = 1 and usr_delete_flag = 0)and evc_dismissed = 0 order by users.usr_email desc, evc_specific_date_time_from_now desc";
   var galandacdsql = "select agent_group_name, agent_group_acd_flag, usr_email, usr_key from gal_agentgroups AS ag join gal_agent2agentgroups AS a2g on a2g.agent_group_id = ag.agent_group_id join users on usr_key = a2g.agent_id where  agent_group_inactive = 0 and agent_group_delete_flag = 0 and usr_key ='" + req.body.agent + "' order by agent_group_name asc";
-  var galandenrollstatessql = "select sta_full_name AS 'State', stl_type AS 'Gal/Enroll', usr_email AS 'User Email', usr_key AS 'User Key' from state_licensure join users on usr_key = stl_usr_key join states on sta_key = stl_sta_key where usr_key ='" + req.body.agent + "' order by stl_type, sta_full_name asc";
+  var galandenrollstatessql = "select top 10 sta_full_name AS 'State', stl_type AS 'GalOrEnroll', usr_email AS 'User Email', usr_key AS 'User Key' from state_licensure join users on usr_key = stl_usr_key join states on sta_key = stl_sta_key where usr_key ='" + req.body.agent + "' order by stl_type, sta_full_name asc";
   //, usr_email AS 'User Email', usr_key AS 'User Key' FOR ABOVE QUERY
   request.query(galandenrollstatessql, function(err, recordset) {
     console.log("SQL Query");
     userResponse = recordset;
-    console.log(recordset);
+    //console.log(recordset);
     next();
   }); 
 }
 
 function renderStatistics(req, res, next) {
   console.log("Callback 3");
-  console.log("Render response object:\n" + userResponse.recordset[1] + "\n");
+  //console.log("Render response object:\n" + userResponse.recordset[1] + "\n");
   //app.set('json spaces', 2);
   //res.send(userResponse.recordset);
-  res.render("statistics", userResponse);
-  //res.render("index", userResponse);
+  var responseData = {
+    galAndACD: userResponse.recordset,
+    jsondata: "test"
+  }
+  console.log(responseData);
+  res.render("statistics", responseData);
+  //res.render("statistics", userResponse);
 }
 
 app.post('/', initializeConn, galAndACDStates, renderStatistics);
