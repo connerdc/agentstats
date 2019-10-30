@@ -1,3 +1,10 @@
+/*
+//
+Todo
+1. Stringified JSON response back to index. Because you have to declare variables before even getting them for EJS, might want to split pages up so I don't have to do that.
+//
+*/
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const mssql = require('mssql')
@@ -28,7 +35,8 @@ app.get('/', function (req, res) {
   })
 
   //render index page
-  res.render('index', {recordset: "" });
+  res.render('index');
+  //res.render('index', {recordset: "" });
 })
 //State: "", 'Gal/Enroll': "", "User Email": "", "User Key": "", for above to change back to variable passing
 
@@ -60,7 +68,8 @@ function renderStatistics(req, res, next) {
   console.log("Render response object:\n" + userResponse.recordset[1] + "\n");
   //app.set('json spaces', 2);
   //res.send(userResponse.recordset);
-  res.render("index", userResponse);
+  res.render("statistics", userResponse);
+  //res.render("index", userResponse);
 }
 
 app.post('/', initializeConn, galAndACDStates, renderStatistics);
